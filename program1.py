@@ -1,38 +1,25 @@
 class Solution(object):
-    def isValid(self, s):
+    def romanToInt(self, s):
         """
         :type s: str
-        :rtype: bool
+        :rtype: int
         """
-        # Dictionary to map closing to opening brackets
-        bracket_map = {')': '(', '}': '{', ']': '['}
-        # Stack to keep track of the opening brackets
-        stack = []
+        # Dictionary to map Roman numerals to their integer values
+        roman = {
+            'I': 1, 'V': 5, 'X': 10, 'L': 50,
+            'C': 100, 'D': 500, 'M': 1000
+        }
         
-        # Traverse through each character in the string
-        for char in s:
-            if char in bracket_map:
-                # Pop the top element from stack if it is non-empty, otherwise assign a dummy value '#'
-                top_element = stack.pop() if stack else '#'
-                
-                # If the top element doesn't match the corresponding opening bracket
-                if bracket_map[char] != top_element:
-                    return False
+        total = 0
+        n = len(s)
+        
+        # Traverse the string
+        for i in range(n):
+            # If the current numeral is less than the next, subtract it
+            if i < n - 1 and roman[s[i]] < roman[s[i + 1]]:
+                total -= roman[s[i]]
             else:
-                # If it's an opening bracket, push it to the stack
-                stack.append(char)
+                # Otherwise, add its value
+                total += roman[s[i]]
         
-        # At the end, the stack should be empty for a valid expression
-        return not stack
-
-
-
-
-
-
-    
-
-
-
-  
-
+        return total
